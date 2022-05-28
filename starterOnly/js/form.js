@@ -4,8 +4,10 @@ let firstName = document.querySelector("#first");
 let lastName = document.querySelector("#last");
 let email = document.querySelector("#email");
 let birthdate = document.querySelector("#birthdate");
+let tournoiQty = document.querySelector("#quantity");
 let cguCheckbox = document.querySelector("#checkbox1");
 let form = document.querySelector("form");
+let modalBody = document.querySelector(".modal-body");
 
 
 form.addEventListener('submit', (e) => {
@@ -30,8 +32,6 @@ form.addEventListener('submit', (e) => {
 
     let validMail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+).[a-zA-Z0-9-]*$/;
 
-    console.log(validMail.test(email.value))
-
     if(validMail.test(email.value) == false){
         formData[2].dataset.errorVisible = "true";
         formData[2].dataset.error = "Vous devez enter une adresse mail valide";
@@ -55,6 +55,17 @@ form.addEventListener('submit', (e) => {
         } else {
             formData[3].dataset.errorVisible = "false";
         }
+
+
+    
+    if(tournoiQty.value === ''){
+        formData[4].dataset.errorVisible = "true";
+        formData[4].dataset.error = "Vous devez sasir le nombre";
+    } else {
+        formData[4].dataset.errorVisible = "false";
+    }
+
+
 
     let radioArr = formData[5].children;
 
@@ -87,5 +98,26 @@ form.addEventListener('submit', (e) => {
         } else {
             formData[6].dataset.errorVisible = "false";
         }
+
+        checkValidation();
 })
 
+
+
+function checkValidation(){
+
+    let validArr = [];
+
+    for(element of formData){
+        if(element.dataset.errorVisible.length === 5 === true){
+            validArr.push(element)
+        }
+    }
+
+    if(validArr.length === 7){
+        modalBody.innerHTML ='<p style="margin-top: 48%; margin-bottom: 48%; text-align: center;">Merci pour votre inscription</p><input class="btn-close" type="button" class="button" value="Fermer" />';
+        setTimeout(function(){
+            location.reload();
+        }, 1000);
+    }
+}
